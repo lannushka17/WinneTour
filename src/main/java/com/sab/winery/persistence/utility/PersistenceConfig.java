@@ -26,17 +26,30 @@ public final class PersistenceConfig {
     private PersistenceConfig() {}
 
     private static String resolveDbPath() {
-        String[] candidates = {
-            "./resources/winery.db", "src/main/resources/winery.db", "./winery.db"
-        };
-        for (String path : candidates) {
-            File f = new File(path);
-            File parent = f.getParentFile();
-            if (parent != null && parent.exists()) {
+        // 1) dev-режим: запуск із кореня проєкту, де є ресурси
+        String[] devCandidates = {"src/main/resources/winery.db", "./resources/winery.db"};
+        for (String path : devCandidates) {
+            File parent = new File(path).getParentFile();
+            if (parent != null && parent.exists() && parent.canWrite()) {
                 return path;
             }
         }
-        return "./winery.db";
+        // 2) встановлений застосунок (jpackage): стандартна тека користувача для ОС
+        String home = System.getProperty("user.home", ".");
+        String os = System.getProperty("os.name", "").toLowerCase();
+        File appDir;
+        if (os.contains("win")) {
+            String appData = System.getenv("APPDATA");
+            appDir = new File(appData != null ? appData : home, "WineryTours");
+        } else if (os.contains("mac")) {
+            appDir = new File(home, "Library/Application Support/WineryTours");
+        } else {
+            appDir = new File(home, ".local/share/WineryTours");
+        }
+        if (!appDir.exists()) {
+            appDir.mkdirs();
+        }
+        return new File(appDir, "winery.db").getAbsolutePath();
     }
 
     public static Connection getConnection() throws SQLException {
