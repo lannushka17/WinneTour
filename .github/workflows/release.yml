@@ -11,6 +11,7 @@ jobs:
   build-installers:
     # Матриця: три паралельних завдання для трьох ОС
     strategy:
+      fail-fast: false
       matrix:
         os: [windows-latest, macos-latest, ubuntu-latest]
 
@@ -42,9 +43,9 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y rpm
 
-      # 5. Збірка Fat JAR (javapackager пропускаємо — версія з тега в jpackage)
+      # 5. Збірка Fat JAR (Maven shade → target/WineryTours-fat.jar)
       - name: Build Fat JAR
-        run: mvn clean package -DskipTests -Djavapackager.skip=true
+        run: mvn clean package -DskipTests
 
       # 6. Підготовка директорії вхідних файлів для jpackage
       - name: Prepare jpackage input
