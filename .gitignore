@@ -1,7 +1,13 @@
 target/
 dist/
 .idea/
-packaging/macos/*.iconset/
+.DS_Store
+**/.DS_Store
+jpackage-input/
+packaging/macos/
+packaging/windows/
+packaging/linux/winerytours.png
+packaging/app-icon.png
 *.iml
 winery.db
 **/winery.db
