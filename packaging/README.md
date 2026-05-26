@@ -1,11 +1,30 @@
-# Іконки для jpackage
+# Пакування (kostyl.dev — Частина III)
 
-Додайте файли (опційно — workflow працює і без них):
+## Структура
 
-| Платформа | Шлях |
-|-----------|------|
-| Windows | `windows/winerytours.ico` |
-| macOS | `macos/winerytours.icns` |
-| Linux | `linux/winerytours.png` (рекомендовано 512×512) |
+```
+packaging/
+├── app-icon.png          ← для javapackager (без розширення в pom: packaging/app-icon)
+├── windows/winerytours.ico
+├── macos/winerytours.icns
+├── linux/winerytours.png
+└── create-icons.py       ← генерація placeholder-іконок
+```
 
-Після додавання іконок інсталятори матимуть брендований ярлик у меню ОС.
+## Локальна збірка (javapackager)
+
+```bash
+python3 packaging/create-icons.py
+# Windows: додатково .ico через ImageMagick
+# macOS: iconutil для .icns
+
+mvn clean package -DskipTests
+# → target/WineryTours-fat.jar
+# → dist/WineryTours-1.0.0.msi | .dmg | _1.0.0.deb
+```
+
+## GitHub Actions
+
+Після `git push origin v1.0.0` workflow `Release — Build Installers` збирає MSI, DMG, DEB, RPM.
+
+Замініть placeholder-іконки власними файлами для фінального релізу.

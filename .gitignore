@@ -1,5 +1,7 @@
 target/
+dist/
 .idea/
+packaging/macos/*.iconset/
 *.iml
 winery.db
 **/winery.db
