@@ -1,4 +1,4 @@
-name: Release — Build Installers
+name: Release Build Installers
 
 # Запуск: push тегу v1.0.0, v2.3.1… або вручну (Actions → Run workflow)
 on:
