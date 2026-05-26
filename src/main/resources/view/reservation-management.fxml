@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sab.winery.controller.ReservationManagementController">
+   <top>
+      <VBox spacing="6.0" styleClass="page-wrap">
+         <children>
+            <Label styleClass="section-title" text="Бронювання турів" />
+            <Label styleClass="section-subtitle" text="Створення броні, фіксація візитів і скасування" />
+            <Separator />
+         </children>
+      </VBox>
+   </top>
+   <center>
+      <VBox spacing="12.0" styleClass="section-card">
+         <padding>
+            <Insets bottom="8.0" left="0.0" right="0.0" top="10.0" />
+         </padding>
+         <children>
+            <GridPane hgap="10.0" vgap="10.0">
+               <columnConstraints>
+                  <ColumnConstraints minWidth="100.0" />
+                  <ColumnConstraints hgrow="ALWAYS" minWidth="260.0" />
+               </columnConstraints>
+               <children>
+                  <Label text="Гість:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                  <ComboBox fx:id="guestCombo" maxWidth="Infinity" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                  <Label text="Сесія туру:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                  <ComboBox fx:id="sessionCombo" maxWidth="Infinity" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Label text="Кількість місць:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                  <HBox alignment="CENTER_LEFT" spacing="12.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <children>
+                        <Spinner fx:id="partySpinner" />
+                     </children>
+                  </HBox>
+               </children>
+            </GridPane>
+            <Label fx:id="hintLabel" wrapText="true" />
+            <HBox spacing="10.0" styleClass="actions-row">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#handleBook" styleClass="btn-primary" text="Створити бронювання" />
+                  <Button mnemonicParsing="false" onAction="#handleVisit" styleClass="btn-accent" text="Фіксація візиту" />
+                  <Button mnemonicParsing="false" onAction="#handleCancel" styleClass="btn-danger" text="Скасувати вибране" />
+               </children>
+            </HBox>
+            <Label styleClass="label-strong" text="Список бронювань" />
+            <TableView fx:id="table" VBox.vgrow="ALWAYS">
+               <columns>
+                  <TableColumn fx:id="colId" prefWidth="55.0" text="№" />
+                  <TableColumn fx:id="colGuest" prefWidth="160.0" text="Гість" />
+                  <TableColumn fx:id="colEmail" prefWidth="200.0" text="E-mail" />
+                  <TableColumn fx:id="colTour" prefWidth="200.0" text="Тур" />
+                  <TableColumn fx:id="colStart" prefWidth="150.0" text="Час сесії" />
+                  <TableColumn fx:id="colParty" prefWidth="70.0" text="Група" />
+                  <TableColumn fx:id="colStatus" prefWidth="100.0" text="Статус" />
+                  <TableColumn fx:id="colVisit" prefWidth="120.0" text="Візит" />
+               </columns>
+            </TableView>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.sab.winery.controller.VisitChargeController">
+   <top>
+      <VBox spacing="6.0" styleClass="page-wrap">
+         <children>
+            <Label styleClass="section-title" text="Нарахування за додаткові послуги" />
+            <Label styleClass="section-subtitle"
+                   text="Облік платних послуг поверх бронювання туру та статус оплати" />
+            <Separator />
+         </children>
+      </VBox>
+   </top>
+   <center>
+      <SplitPane dividerPositions="0.62" orientation="VERTICAL">
+         <items>
+            <VBox spacing="10.0" styleClass="section-card">
+               <children>
+                  <HBox styleClass="toolbar-row">
+                     <children>
+                        <Label styleClass="label-strong" text="Нарахування" />
+                        <Region HBox.hgrow="ALWAYS" />
+                        <ComboBox fx:id="reservationFilter" promptText="Фільтр за бронюванням" prefWidth="260" />
+                        <ComboBox fx:id="paidFilter" promptText="Оплачено?" />
+                        <Button mnemonicParsing="false" onAction="#handleRefresh"
+                                styleClass="btn-neutral" text="Оновити" />
+                     </children>
+                  </HBox>
+                  <TableView fx:id="chargeTable" VBox.vgrow="ALWAYS">
+                     <columns>
+                        <TableColumn fx:id="idColumn" prefWidth="50.0" text="ID" />
+                        <TableColumn fx:id="reservationColumn" prefWidth="220.0" text="Бронювання" />
+                        <TableColumn fx:id="serviceColumn" prefWidth="220.0" text="Послуга" />
+                        <TableColumn fx:id="qtyColumn" prefWidth="80.0" text="К-сть" />
+                        <TableColumn fx:id="priceColumn" prefWidth="100.0" text="Ціна/од" />
+                        <TableColumn fx:id="totalColumn" prefWidth="110.0" text="Сума" />
+                        <TableColumn fx:id="dateColumn" prefWidth="140.0" text="Дата/час" />
+                        <TableColumn fx:id="paidColumn" prefWidth="100.0" text="Оплачено" />
+                     </columns>
+                  </TableView>
+               </children>
+            </VBox>
+            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="content-scroll" vbarPolicy="AS_NEEDED">
+               <content>
+                  <VBox spacing="15.0" styleClass="section-card">
+                     <children>
+                        <Label styleClass="label-strong" text="Деталі нарахування" />
+                        <GridPane hgap="10.0" vgap="10.0">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="NEVER" minWidth="160.0" />
+                              <ColumnConstraints hgrow="ALWAYS" />
+                           </columnConstraints>
+                           <children>
+                              <Label text="Бронювання:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                              <ComboBox fx:id="reservationCombo" promptText="Оберіть бронювання"
+                                        GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                              <Label text="Послуга:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                              <ComboBox fx:id="serviceCombo" promptText="Оберіть послугу"
+                                        GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <Label text="Кількість:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                              <Spinner fx:id="quantitySpinner" editable="true"
+                                       GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <Label text="Оплачено:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                              <CheckBox fx:id="paidCheck" text="Послуга оплачена"
+                                        GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                           </children>
+                        </GridPane>
+                        <HBox styleClass="total-row">
+                           <children>
+                              <Label styleClass="total-label" text="Загальна сума:" />
+                              <Label fx:id="totalLabel" styleClass="total-value" text="0.00 грн" />
+                           </children>
+                        </HBox>
+                        <FlowPane alignment="CENTER" hgap="10.0" styleClass="actions-row" vgap="10.0">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#handleSave"
+                                      styleClass="btn-primary" text="Додати" />
+                              <Button fx:id="updateButton" mnemonicParsing="false" onAction="#handleUpdate"
+                                      styleClass="btn-accent" text="Оновити" />
+                              <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#handleDelete"
+                                      styleClass="btn-danger" text="Видалити" />
+                              <Button mnemonicParsing="false" onAction="#handleClear"
+                                      styleClass="btn-neutral" text="Очистити" />
+                           </children>
+                        </FlowPane>
+                     </children>
+                  </VBox>
+               </content>
+            </ScrollPane>
+         </items>
+      </SplitPane>
+   </center>
+</BorderPane>

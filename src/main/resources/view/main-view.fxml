@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane styleClass="app-shell" xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.sab.winery.controller.MainController">
+   <top>
+      <VBox spacing="2.0" styleClass="topbar">
+         <children>
+            <HBox alignment="CENTER_LEFT">
+               <children>
+                  <VBox spacing="4.0">
+                     <children>
+                        <Label styleClass="app-title" text="WineryTours" />
+                        <Label styleClass="app-subtitle"
+                               text="Інформаційна система обліку дегустаційних турів виноробні" />
+                     </children>
+                  </VBox>
+                  <Region HBox.hgrow="ALWAYS" />
+                  <VBox alignment="CENTER_RIGHT" spacing="2.0">
+                     <children>
+                        <Label fx:id="currentUserLabel" styleClass="app-subtitle" text="Користувач: -" />
+                        <Label fx:id="currentRoleLabel" styleClass="app-subtitle" text="Роль: -" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </top>
+   <left>
+      <HBox fx:id="menuHost" styleClass="menu-host">
+         <children>
+            <Pane fx:id="indicatorLayer" prefWidth="4">
+               <children>
+                  <Region fx:id="menuIndicator" styleClass="menu-indicator" visible="false" />
+               </children>
+            </Pane>
+            <VBox fx:id="sidebar" styleClass="sidebar" HBox.hgrow="NEVER">
+               <children>
+                  <HBox styleClass="sidebar-header">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#toggleSidebar"
+                                styleClass="sidebar-toggle" text="≡" />
+                        <Label fx:id="sidebarBrand" styleClass="sidebar-brand" text="Меню" />
+                     </children>
+                  </HBox>
+                  <Label fx:id="sectionMain" styleClass="menu-section" text="ОСНОВНЕ" />
+                  <VBox styleClass="menu-box">
+                     <children>
+                        <ToggleButton fx:id="homeNav" mnemonicParsing="false" maxWidth="Infinity"
+                                      onAction="#showHome" styleClass="sidebar-item" text="Головна">
+                           <graphic>
+                              <Label styleClass="sidebar-icon" text="🏠" />
+                           </graphic>
+                        </ToggleButton>
+                        <ToggleButton fx:id="toursNav" mnemonicParsing="false" maxWidth="Infinity"
+                                      onAction="#showTours" styleClass="sidebar-item" text="Тури й сесії">
+                           <graphic>
+                              <Label styleClass="sidebar-icon" text="🍷" />
+                           </graphic>
+                        </ToggleButton>
+                        <ToggleButton fx:id="guestsNav" mnemonicParsing="false" maxWidth="Infinity"
+                                      onAction="#showGuests" styleClass="sidebar-item" text="Гості">
+                           <graphic>
+                              <Label styleClass="sidebar-icon" text="👥" />
+                           </graphic>
+                        </ToggleButton>
+                        <ToggleButton fx:id="reservationsNav" mnemonicParsing="false" maxWidth="Infinity"
+                                      onAction="#showReservations" styleClass="sidebar-item" text="Бронювання">
+                           <graphic>
+                              <Label styleClass="sidebar-icon" text="📅" />
+                           </graphic>
+                        </ToggleButton>
+                        <ToggleButton fx:id="wineNav" mnemonicParsing="false" maxWidth="Infinity"
+                                      onAction="#showWine" styleClass="sidebar-item" text="Продукція">
+                           <graphic>
+                              <Label styleClass="sidebar-icon" text="📦" />
+                           </graphic>
+                        </ToggleButton>
+                     </children>
+                  </VBox>
+                  <Label fx:id="sectionLoyalty" styleClass="menu-section" text="ЛОЯЛЬНІСТЬ І ПЛАТЕЖІ" />
+                  <VBox styleClass="menu-box">
+                     <children>
+                        <ToggleButton fx:id="membershipNav" mnemonicParsing="false" maxWidth="Infinity"
+                                      onAction="#showMembership" styleClass="sidebar-item" text="Клуб виноробні">
+                           <graphic>
+                              <Label styleClass="sidebar-icon" text="⭐" />
+                           </graphic>
+                        </ToggleButton>
+                        <ToggleButton fx:id="addonsNav" mnemonicParsing="false" maxWidth="Infinity"
+                                      onAction="#showAddons" styleClass="sidebar-item" text="Каталог послуг">
+                           <graphic>
+                              <Label styleClass="sidebar-icon" text="🛎" />
+                           </graphic>
+                        </ToggleButton>
+                        <ToggleButton fx:id="chargesNav" mnemonicParsing="false" maxWidth="Infinity"
+                                      onAction="#showCharges" styleClass="sidebar-item" text="Нарахування">
+                           <graphic>
+                              <Label styleClass="sidebar-icon" text="💳" />
+                           </graphic>
+                        </ToggleButton>
+                     </children>
+                  </VBox>
+                  <Label fx:id="sectionAdmin" styleClass="menu-section" text="АДМІНІСТРУВАННЯ" />
+                  <VBox styleClass="menu-box">
+                     <children>
+                        <ToggleButton fx:id="usersNav" mnemonicParsing="false" maxWidth="Infinity"
+                                      onAction="#showUsers" styleClass="sidebar-item" text="Користувачі">
+                           <graphic>
+                              <Label styleClass="sidebar-icon" text="👤" />
+                           </graphic>
+                        </ToggleButton>
+                        <ToggleButton fx:id="reportsNav" mnemonicParsing="false" maxWidth="Infinity"
+                                      onAction="#showReports" styleClass="sidebar-item" text="Звітність">
+                           <graphic>
+                              <Label styleClass="sidebar-icon" text="📊" />
+                           </graphic>
+                        </ToggleButton>
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </left>
+   <center>
+      <StackPane fx:id="contentArea" styleClass="content-area">
+         <children>
+            <ScrollPane fx:id="homeContent" fitToWidth="true" hbarPolicy="NEVER"
+                        styleClass="content-scroll" vbarPolicy="AS_NEEDED">
+               <content>
+                  <VBox styleClass="home-wrap">
+                     <children>
+                        <VBox styleClass="hero-card" spacing="12.0">
+                           <children>
+                              <Label styleClass="hero-title"
+                                     text="Дегустаційні тури — від бронювання до клубної лояльності"
+                                     wrapText="true" />
+                              <Label fx:id="welcomeLabel" styleClass="hero-text" wrapText="true" />
+                           </children>
+                        </VBox>
+                        <HBox alignment="CENTER" spacing="14.0">
+                           <children>
+                              <VBox HBox.hgrow="ALWAYS" maxWidth="1.7976931348623157E308" styleClass="metric-card">
+                                 <children>
+                                    <Label styleClass="metric-value" text="24/7" />
+                                    <Label styleClass="metric-title" text="Доступ до журналу турів" />
+                                 </children>
+                              </VBox>
+                              <VBox HBox.hgrow="ALWAYS" maxWidth="1.7976931348623157E308" styleClass="metric-card">
+                                 <children>
+                                    <Label styleClass="metric-value" text="9" />
+                                    <Label styleClass="metric-title" text="Модулів керування" />
+                                 </children>
+                              </VBox>
+                              <VBox HBox.hgrow="ALWAYS" maxWidth="1.7976931348623157E308" styleClass="metric-card">
+                                 <children>
+                                    <Label styleClass="metric-value" text="1" />
+                                    <Label styleClass="metric-title" text="Локальна база winery.db" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" spacing="14.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <VBox HBox.hgrow="ALWAYS" maxWidth="1.7976931348623157E308" styleClass="feature-card">
+                                 <children>
+                                    <Label styleClass="feature-title" text="Тури та бронювання" />
+                                    <Label styleClass="feature-text"
+                                           text="Каталог програм, розклад сесій, профілі гостей і бронювання місць без подвоєнь."
+                                           wrapText="true" />
+                                 </children>
+                              </VBox>
+                              <VBox HBox.hgrow="ALWAYS" maxWidth="1.7976931348623157E308" styleClass="feature-card">
+                                 <children>
+                                    <Label styleClass="feature-title" text="Клуб і нарахування" />
+                                    <Label styleClass="feature-text"
+                                           text="Картки виноробного клубу гостей і нарахування за додаткові послуги — закуски, трансфер, майстер-клас."
+                                           wrapText="true" />
+                                 </children>
+                              </VBox>
+                              <VBox HBox.hgrow="ALWAYS" maxWidth="1.7976931348623157E308" styleClass="feature-card">
+                                 <children>
+                                    <Label styleClass="feature-title" text="Звітність і експорт" />
+                                    <Label styleClass="feature-text"
+                                           text="Аналітика за період, оцінка ризиків клубних карток, експорт у CSV для подальшої обробки."
+                                           wrapText="true" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </padding>
+                  </VBox>
+               </content>
+            </ScrollPane>
+         </children>
+      </StackPane>
+   </center>
+   <bottom>
+      <HBox alignment="CENTER" styleClass="footer-bar">
+         <children>
+            <Label styleClass="footer-label"
+                   text="WineryTours · Система обліку дегустаційних турів виноробні © 2026" />
+         </children>
+      </HBox>
+   </bottom>
+</BorderPane>

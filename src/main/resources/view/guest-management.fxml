@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sab.winery.controller.GuestManagementController">
+   <top>
+      <VBox spacing="6.0" styleClass="page-wrap">
+         <children>
+            <Label styleClass="section-title" text="Облік гостей" />
+            <Label styleClass="section-subtitle" text="Профілі відвідувачів та контакти для бронювань" />
+            <Separator />
+         </children>
+      </VBox>
+   </top>
+   <center>
+      <VBox spacing="12.0" styleClass="section-card">
+         <padding>
+            <Insets bottom="8.0" left="0.0" right="0.0" top="10.0" />
+         </padding>
+         <children>
+            <TableView fx:id="table" prefHeight="360.0" VBox.vgrow="ALWAYS">
+               <columns>
+                  <TableColumn fx:id="idCol" prefWidth="60.0" text="ID" />
+                  <TableColumn fx:id="nameCol" prefWidth="200.0" text="Ім'я / група" />
+                  <TableColumn fx:id="phoneCol" prefWidth="140.0" text="Телефон" />
+                  <TableColumn fx:id="emailCol" prefWidth="260.0" text="E-mail" />
+               </columns>
+            </TableView>
+            <GridPane hgap="8.0" vgap="10.0">
+               <columnConstraints>
+                  <ColumnConstraints minWidth="80.0" />
+                  <ColumnConstraints hgrow="ALWAYS" minWidth="200.0" />
+               </columnConstraints>
+               <children>
+                  <Label text="Ім'я:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                  <TextField fx:id="nameField" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                  <Label text="Телефон:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                  <TextField fx:id="phoneField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Label text="E-mail:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                  <TextField fx:id="emailField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </GridPane>
+            <HBox spacing="10.0" styleClass="actions-row">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#handleSave" styleClass="btn-primary" text="Додати" />
+                  <Button mnemonicParsing="false" onAction="#handleUpdate" styleClass="btn-accent" text="Змінити" />
+                  <Button mnemonicParsing="false" onAction="#handleDelete" styleClass="btn-danger" text="Видалити" />
+                  <Button mnemonicParsing="false" onAction="#handleClear" styleClass="btn-neutral" text="Очистити форму" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>

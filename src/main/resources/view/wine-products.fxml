@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sab.winery.controller.WineProductController">
+   <top>
+      <VBox spacing="6.0" styleClass="page-wrap">
+         <children>
+            <Label styleClass="section-title" text="Продукція та залишки на складі" />
+            <Label styleClass="section-subtitle" text="Асортимент вин виноробні, ціни та запас одиниць" />
+            <Separator />
+         </children>
+      </VBox>
+   </top>
+   <center>
+      <SplitPane dividerPositions="0.52" orientation="VERTICAL">
+         <items>
+            <VBox spacing="8.0">
+               <padding>
+                  <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+               </padding>
+               <children>
+                  <Label styleClass="label-strong" text="Каталог" />
+                  <TableView fx:id="table" VBox.vgrow="ALWAYS">
+                     <columns>
+                        <TableColumn fx:id="colId" prefWidth="50.0" text="ID" />
+                        <TableColumn fx:id="colName" prefWidth="240.0" text="Назва" />
+                        <TableColumn fx:id="colCat" prefWidth="140.0" text="Категорія" />
+                        <TableColumn fx:id="colPrice" prefWidth="90.0" text="Ціна" />
+                        <TableColumn fx:id="colStock" prefWidth="90.0" text="Залишок" />
+                     </columns>
+                  </TableView>
+               </children>
+            </VBox>
+            <VBox spacing="10.0">
+               <padding>
+                  <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+               </padding>
+               <children>
+                  <HBox alignment="CENTER_LEFT" spacing="10.0">
+                     <children>
+                        <Label text="Виноробня:" />
+                        <ComboBox fx:id="wineryCombo" prefWidth="260.0" />
+                     </children>
+                  </HBox>
+                  <GridPane hgap="10.0" vgap="10.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="NEVER" minWidth="100.0" />
+                        <ColumnConstraints hgrow="ALWAYS" />
+                     </columnConstraints>
+                     <children>
+                        <Label text="Назва:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                        <TextField fx:id="nameField" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                        <Label text="Категорія:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                        <TextField fx:id="categoryField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label text="Ціна:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                        <Spinner fx:id="priceSpinner" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Label text="Залишок:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                        <Spinner fx:id="stockSpinner" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Label text="Фото:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                        <HBox spacing="8.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                           <children>
+                              <TextField fx:id="imageField" HBox.hgrow="ALWAYS" />
+                              <Button mnemonicParsing="false" onAction="#browseImage" text="..." />
+                              <ImageView fx:id="preview" fitHeight="72.0" fitWidth="72.0" preserveRatio="true" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </GridPane>
+                  <HBox spacing="10.0" styleClass="actions-row">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#saveProduct" styleClass="btn-primary" text="Зберегти" />
+                        <Button mnemonicParsing="false" onAction="#clearForm" styleClass="btn-neutral" text="Очистити" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </items>
+      </SplitPane>
+   </center>
+</BorderPane>

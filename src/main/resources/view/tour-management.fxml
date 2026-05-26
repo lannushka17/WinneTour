@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sab.winery.controller.TourManagementController">
+   <top>
+      <VBox spacing="6.0" styleClass="page-wrap">
+         <children>
+            <Label styleClass="section-title" text="Програми турів і розклад сесій" />
+            <Label styleClass="section-subtitle" text="Каталог програм, тривалість, місткість і графік сесій" />
+            <Separator />
+         </children>
+      </VBox>
+   </top>
+   <center>
+      <SplitPane dividerPositions="0.48" prefHeight="600.0">
+         <items>
+            <VBox spacing="10.0">
+               <padding>
+                  <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+               </padding>
+               <children>
+                  <Label styleClass="label-strong" text="Каталог програм" />
+                  <TableView fx:id="programsTable" VBox.vgrow="ALWAYS">
+                     <columns>
+                        <TableColumn fx:id="progIdCol" prefWidth="50.0" text="ID" />
+                        <TableColumn fx:id="progTitleCol" prefWidth="240.0" text="Назва" />
+                        <TableColumn fx:id="progDurationCol" prefWidth="90.0" text="Хвилин" />
+                     </columns>
+                  </TableView>
+                  <VBox spacing="8.0">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" spacing="8.0">
+                           <children>
+                              <Label text="Виноробня:" />
+                              <ComboBox fx:id="wineryCombo" prefWidth="260.0" />
+                           </children>
+                        </HBox>
+                        <GridPane hgap="8.0" vgap="8.0">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="NEVER" minWidth="110.0" />
+                              <ColumnConstraints hgrow="ALWAYS" />
+                           </columnConstraints>
+                           <children>
+                              <Label text="Назва:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                              <TextField fx:id="progTitleField" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                              <Label text="Опис:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                              <TextArea fx:id="progDescField" prefRowCount="3" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <Label text="Тривалість:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                              <Spinner fx:id="durationSpinner" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <Label text="Типова місткість:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                              <Spinner fx:id="defaultGuestsSpinner" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <Label text="Фото (шлях):" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                              <HBox spacing="6.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                 <children>
+                                    <TextField fx:id="progImageField" HBox.hgrow="ALWAYS" />
+                                    <Button mnemonicParsing="false" onAction="#browseProgramImage" text="..." />
+                                    <ImageView fx:id="progImagePreview" fitHeight="72.0" fitWidth="72.0" preserveRatio="true" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </GridPane>
+                        <HBox spacing="8.0" styleClass="actions-row">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#saveProgram" styleClass="btn-success" text="Зберегти програму" />
+                              <Button mnemonicParsing="false" onAction="#archiveProgram" styleClass="btn-danger" text="Архівувати" />
+                              <Button mnemonicParsing="false" onAction="#clearProgramFormAction" styleClass="btn-neutral" text="Очистити форму" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+            <VBox spacing="10.0">
+               <padding>
+                  <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+               </padding>
+               <children>
+                  <Label styleClass="label-strong" text="Сесії обраної програми" />
+                  <TableView fx:id="sessionsTable" prefHeight="220.0">
+                     <columns>
+                        <TableColumn fx:id="sessIdCol" prefWidth="50.0" text="ID" />
+                        <TableColumn fx:id="sessStartCol" prefWidth="200.0" text="Початок" />
+                        <TableColumn fx:id="sessCapCol" prefWidth="90.0" text="Місткість" />
+                        <TableColumn fx:id="sessStatusCol" prefWidth="100.0" text="Статус" />
+                     </columns>
+                  </TableView>
+                  <GridPane hgap="8.0" vgap="8.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="NEVER" minWidth="110.0" />
+                        <ColumnConstraints hgrow="ALWAYS" />
+                     </columnConstraints>
+                     <children>
+                        <Label text="Початок ISO:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                        <TextField fx:id="sessionStartField" promptText="2026-08-01T17:00:00" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                        <Label text="Місткість:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                        <Spinner fx:id="sessionCapSpinner" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                     </children>
+                  </GridPane>
+                  <HBox spacing="8.0" styleClass="actions-row">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#saveSession" styleClass="btn-primary" text="Зберегти сесію" />
+                        <Button mnemonicParsing="false" onAction="#deleteSession" styleClass="btn-neutral" text="Допомога" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </items>
+      </SplitPane>
+   </center>
+</BorderPane>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.sab.winery.controller.AddonServiceController">
+   <top>
+      <VBox spacing="6.0" styleClass="page-wrap">
+         <children>
+            <Label styleClass="section-title" text="Каталог додаткових послуг" />
+            <Label styleClass="section-subtitle"
+                   text="Перелік платних опцій для бронювань (доступно адміністратору)" />
+            <Separator />
+         </children>
+      </VBox>
+   </top>
+   <center>
+      <SplitPane dividerPositions="0.6" orientation="VERTICAL">
+         <items>
+            <VBox spacing="10.0" styleClass="section-card">
+               <children>
+                  <HBox styleClass="toolbar-row">
+                     <children>
+                        <Label styleClass="label-strong" text="Послуги" />
+                        <Region HBox.hgrow="ALWAYS" />
+                        <Button mnemonicParsing="false" onAction="#handleRefresh"
+                                styleClass="btn-neutral" text="Оновити" />
+                     </children>
+                  </HBox>
+                  <TableView fx:id="serviceTable" VBox.vgrow="ALWAYS">
+                     <columns>
+                        <TableColumn fx:id="idColumn" prefWidth="55.0" text="ID" />
+                        <TableColumn fx:id="nameColumn" prefWidth="260.0" text="Назва" />
+                        <TableColumn fx:id="kindColumn" prefWidth="180.0" text="Категорія" />
+                        <TableColumn fx:id="priceColumn" prefWidth="120.0" text="Ціна за од." />
+                        <TableColumn fx:id="activeColumn" prefWidth="100.0" text="Статус" />
+                     </columns>
+                  </TableView>
+               </children>
+            </VBox>
+            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="content-scroll" vbarPolicy="AS_NEEDED">
+               <content>
+                  <VBox spacing="15.0" styleClass="section-card">
+                     <children>
+                        <Label styleClass="label-strong" text="Деталі послуги" />
+                        <GridPane hgap="10.0" vgap="10.0">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="NEVER" minWidth="160.0" />
+                              <ColumnConstraints hgrow="ALWAYS" />
+                           </columnConstraints>
+                           <children>
+                              <Label text="Назва:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                              <TextField fx:id="nameField" promptText="Назва послуги"
+                                         GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                              <Label text="Категорія:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                              <ComboBox fx:id="kindCombo" promptText="Категорія"
+                                        GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <Label text="Ціна за од.:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                              <Spinner fx:id="priceSpinner" editable="true"
+                                       GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <Label text="Активна:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                              <CheckBox fx:id="activeCheck" text="Послуга доступна для нарахувань"
+                                        GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                           </children>
+                        </GridPane>
+                        <FlowPane alignment="CENTER" hgap="10.0" styleClass="actions-row" vgap="10.0">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#handleSave"
+                                      styleClass="btn-primary" text="Створити" />
+                              <Button fx:id="updateButton" mnemonicParsing="false" onAction="#handleUpdate"
+                                      styleClass="btn-accent" text="Оновити" />
+                              <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#handleDelete"
+                                      styleClass="btn-danger" text="Видалити" />
+                              <Button mnemonicParsing="false" onAction="#handleClear"
+                                      styleClass="btn-neutral" text="Очистити" />
+                           </children>
+                        </FlowPane>
+                     </children>
+                  </VBox>
+               </content>
+            </ScrollPane>
+         </items>
+      </SplitPane>
+   </center>
+</BorderPane>

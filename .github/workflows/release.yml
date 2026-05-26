@@ -1,0 +1,185 @@
+name: Release — Build Installers
+
+# Запускається при пуші тегу виду v1.0.0, v2.3.1 тощо
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  build-installers:
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Install WiX Toolset (Windows only)
+        if: matrix.os == 'windows-latest'
+        run: choco install wixtoolset --yes
+
+      - name: Install RPM packaging tools (Linux only)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y rpm
+
+      - name: Set JavaFX platform for runner OS
+        id: javafx
+        shell: bash
+        run: |
+          case "${{ matrix.os }}" in
+            windows-latest) echo "PLATFORM=win" >> "$GITHUB_OUTPUT" ;;
+            macos-latest)     echo "PLATFORM=mac-aarch64" >> "$GITHUB_OUTPUT" ;;
+            ubuntu-latest)    echo "PLATFORM=linux" >> "$GITHUB_OUTPUT" ;;
+          esac
+
+      - name: Build Fat JAR
+        run: mvn clean package -DskipTests -Djavafx.platform=${{ steps.javafx.outputs.PLATFORM }}
+
+      - name: Prepare jpackage input
+        shell: bash
+        run: |
+          mkdir -p jpackage-input
+          cp target/WineryTours-fat.jar jpackage-input/
+
+      - name: Extract version from tag
+        id: version
+        shell: bash
+        run: echo "VERSION=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+
+      - name: Package installer (Windows)
+        if: matrix.os == 'windows-latest'
+        shell: pwsh
+        run: |
+          $icon = "packaging/windows/winerytours.ico"
+          $iconArg = @()
+          if (Test-Path $icon) { $iconArg = @("--icon", $icon) }
+          jpackage `
+            --type msi `
+            --name "WineryTours" `
+            --app-version "${{ steps.version.outputs.VERSION }}" `
+            --vendor "Кулик КН-33" `
+            --input jpackage-input/ `
+            --main-jar WineryTours-fat.jar `
+            --main-class com.sab.winery.Launcher `
+            @iconArg `
+            --dest dist/ `
+            --java-options "--enable-native-access=ALL-UNNAMED" `
+            --win-dir-chooser `
+            --win-menu `
+            --win-shortcut
+
+      - name: Package installer (macOS)
+        if: matrix.os == 'macos-latest'
+        run: |
+          ICON_ARGS=()
+          if [ -f packaging/macos/winerytours.icns ]; then
+            ICON_ARGS=(--icon packaging/macos/winerytours.icns)
+          fi
+          jpackage \
+            --type dmg \
+            --name "WineryTours" \
+            --app-version "${{ steps.version.outputs.VERSION }}" \
+            --vendor "Кулик КН-33" \
+            --input jpackage-input/ \
+            --main-jar WineryTours-fat.jar \
+            --main-class com.sab.winery.Launcher \
+            "${ICON_ARGS[@]}" \
+            --dest dist/ \
+            --java-options "--enable-native-access=ALL-UNNAMED"
+
+      - name: Package installer (Linux DEB & RPM)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          ICON_ARGS=()
+          if [ -f packaging/linux/winerytours.png ]; then
+            ICON_ARGS=(--icon packaging/linux/winerytours.png)
+          fi
+          jpackage \
+            --type deb \
+            --name winerytours \
+            --app-version "${{ steps.version.outputs.VERSION }}" \
+            --vendor "Кулик КН-33" \
+            --input jpackage-input/ \
+            --main-jar WineryTours-fat.jar \
+            --main-class com.sab.winery.Launcher \
+            "${ICON_ARGS[@]}" \
+            --dest dist/ \
+            --java-options "--enable-native-access=ALL-UNNAMED" \
+            --linux-shortcut
+
+          jpackage \
+            --type rpm \
+            --name winerytours \
+            --app-version "${{ steps.version.outputs.VERSION }}" \
+            --vendor "Кулик КН-33" \
+            --input jpackage-input/ \
+            --main-jar WineryTours-fat.jar \
+            --main-class com.sab.winery.Launcher \
+            "${ICON_ARGS[@]}" \
+            --dest dist/ \
+            --java-options "--enable-native-access=ALL-UNNAMED" \
+            --linux-shortcut
+
+          cp target/WineryTours-fat.jar dist/
+
+      - name: Copy Fat JAR to dist (Windows & macOS)
+        if: matrix.os != 'ubuntu-latest'
+        shell: bash
+        run: |
+          mkdir -p dist
+          cp target/WineryTours-fat.jar dist/
+
+      - name: Upload installer artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: installer-${{ matrix.os }}
+          path: dist/
+          retention-days: 1
+
+  publish-release:
+    needs: build-installers
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download all installer artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: installers/
+          merge-multiple: true
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "WineryTours ${{ github.ref_name }}"
+          body: |
+            ## Що нового у ${{ github.ref_name }}
+
+            Опис змін цього релізу.
+
+            ## Завантаження
+
+            | Операційна система / Платформа | Файл |
+            |---|---|
+            | Windows 10/11 | `*.msi` |
+            | macOS 12+ (Apple Silicon) | `*.dmg` |
+            | Ubuntu/Debian | `*.deb` |
+            | RedHat/Fedora | `*.rpm` |
+            | Будь-яка (з встановленою JRE 21+) | `WineryTours-fat.jar` |
+          files: installers/**
+          draft: false
+          prerelease: false
