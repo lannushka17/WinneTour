@@ -17,8 +17,7 @@
     <lombok.version>1.18.38</lombok.version>
     <javafx.version>22.0.2</javafx.version>
     <javafx.platform>win</javafx.platform>
-    <app.release.version>${project.version}</app.release.version>
-    <javapackager.skip>${env.CI}</javapackager.skip>
+    <javapackager.skip>false</javapackager.skip>
   </properties>
 
   <dependencies>
@@ -83,6 +82,12 @@
     </profile>
     <profile>
       <id>platform-linux</id>
+      <activation>
+        <os>
+          <family>unix</family>
+          <name>Linux</name>
+        </os>
+      </activation>
       <properties>
         <javafx.platform>linux</javafx.platform>
       </properties>
@@ -179,7 +184,7 @@
               <administratorRequired>false</administratorRequired>
               <platform>auto</platform>
               <name>WineryTours</name>
-              <version>${app.release.version}</version>
+              <version>${project.version}</version>
               <organizationName>Kulik KN-33</organizationName>
               <organizationUrl>https://github.com/annaalona/WineryTours</organizationUrl>
               <iconFile>packaging/app-icon</iconFile>
